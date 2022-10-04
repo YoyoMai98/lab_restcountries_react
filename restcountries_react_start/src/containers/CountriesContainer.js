@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 
 import CountriesList from "../components/CountriesList";
+import Search from "../components/Search";
 import VisitedCountriesList from "../components/VisitedCountriesList";
 
 const CountriesContainer = () => {
 
     const [countries, setCountries] = useState([]);
     const [visitedCountries, setVisitedCountries] = useState([])
+    const [filteredCountries, setFilteredCountries] = useState()
+    const [term, setTerm] = useState("")
+    // const [searched, setSearched] = useState(false)
 
     const fetchCountries = () => {
         fetch("https://restcountries.com/v3.1/all")
@@ -26,6 +30,21 @@ const CountriesContainer = () => {
         return countries
     }
 
+    const searchForACountry = (countryName) => {
+        const countryArr = countries.filter(country => {
+                return country.name.common.toLowerCase().includes(countryName.toLowerCase())
+            })
+        setFilteredCountries(countryArr)
+    }
+
+    const handleOnChange = event => {
+        setTerm(event.target.value)
+    }
+
+    // const handleOnClick = () => {
+    //     setSearched(true)
+    // }
+
     useEffect(() => {
         fetchCountries();
         for(const country of countries){
@@ -36,12 +55,24 @@ const CountriesContainer = () => {
             setCountries(markedVisitedCountries())
             setVisitedCountries(countries.filter(country => country.visited))
         }
-    }, [countries])
+        if(term){
+            // handleOnClick()
+            searchForACountry(term)
+            // setSearched(false)
+            setTerm("")
+        }
+    }, [countries, term])
 
     return(
         <>
-            <h1>I'm a country container!</h1>
-            <CountriesList countries={countries} />
+            <header>
+                <h2>Country</h2>
+                <form className="search">
+                    <input type="search" placeholder="country name..." id="search-input" onChange={handleOnChange}/>
+                    {/* <button onClick={handleOnClick} id="search-btn">Search</button> */}
+                </form>
+            </header>
+            <CountriesList countries={filteredCountries ? filteredCountries : countries} />
             <VisitedCountriesList visitedCountries={visitedCountries}/>
         </>
     );

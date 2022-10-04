@@ -7,6 +7,12 @@ body {
   text-align: center;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 li {
   list-style: none;
 }
