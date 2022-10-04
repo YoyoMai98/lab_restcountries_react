@@ -4,10 +4,12 @@ const VisitedCountriesList = ({visitedCountries}) => {
     return(
         <>
             <h2>All the countries I've visited!</h2>
+            <ul className="visited-countries-list">
             {visitedCountries ? 
-                visitedCountries.map((country, index) => <CountryListItem country={country.name} key={country+index} />) :
+                visitedCountries.map((country, index) => <CountryListItem country={country} key={country+index} />) :
                 <p>Loading...</p>
             }
+            </ul>
         </>
     );
 }
