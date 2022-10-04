@@ -1,6 +1,10 @@
-const CountryListItem = () => {
+const CountryListItem = ({country}) => {
+
     return (
-        <li>One CountryListItem!</li>
+        <>
+        {country ? <li>{country.common}</li> : <p>Loading...</p> }
+        </>
+        
     );
 }
 
