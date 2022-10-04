@@ -8,9 +8,9 @@ const CountryListItem = ({country}) => {
         <>
         {country ? (
         <li>
-            {name.common}
             <img src={flagSrc.png} alt={name.common} />
-            <p>capital: {capital}</p>
+            <span>{name.common}</span>
+            <p>Capital: {capital}</p>
         </li>) : <p>Loading...</p> }
         </>
         
