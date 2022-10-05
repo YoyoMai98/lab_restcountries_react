@@ -10,7 +10,7 @@ const CountriesContainer = () => {
     const [visitedCountries, setVisitedCountries] = useState([])
     const [filteredCountries, setFilteredCountries] = useState()
     const [term, setTerm] = useState("")
-    // const [searched, setSearched] = useState(false)
+    const [searched, setSearched] = useState(false)
     const [selected, setSelected] = useState(null)
 
     const fetchCountries = () => {
@@ -22,7 +22,6 @@ const CountriesContainer = () => {
     const addVisitedCountry = (country) => {
         if(visitedCountries.includes(country)){
             alert("You have added this country!")
-            console.log(country)
         }else{
             country.visited = true
             setVisitedCountries([...visitedCountries, country])
@@ -45,9 +44,10 @@ const CountriesContainer = () => {
         setTerm(event.target.value)
     }
 
-    // const handleOnClick = () => {
-    //     setSearched(true)
-    // }
+    const handleOnClick = event => {
+        event.preventDefault()
+        setSearched(true)
+    }
 
     useEffect(() => {
         fetchCountries();
@@ -55,21 +55,20 @@ const CountriesContainer = () => {
             country.visited = false
         }
         setCountries(countries)
-        if(term){
-            // handleOnClick()
+        if(term && searched){
             searchForACountry(term)
-            // setSearched(false)
+            setSearched(false)
             setTerm("")
         }
-    }, [countries, term])
+    }, [countries, term, searched])
 
     return(
         <>
             <header>
-                <h2>Countries and Visited Countries</h2>
+                <h2>All the Countries</h2>
                 <form className="search">
                     <input type="search" placeholder="country name..." id="search-input" onChange={handleOnChange}/>
-                    {/* <button onClick={handleOnClick} id="search-btn">Search</button> */}
+                    <button onClick={handleOnClick} id="search-btn">Search</button>
                 </form>
             </header>
             <div className="countries">
