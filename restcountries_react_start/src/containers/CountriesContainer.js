@@ -64,13 +64,17 @@ const CountriesContainer = () => {
 
     return(
         <>
-            <header>
+            <VisitedCountriesList
+                visitedCountries={visitedCountries}
+                selectCountry={selectCountry}
+            />
+            <div className="search-title">
                 <h2>All the Countries</h2>
                 <form className="search">
                     <input type="search" placeholder="country name..." id="search-input" onChange={handleOnChange}/>
                     <button onClick={handleOnClick} id="search-btn">Search</button>
                 </form>
-            </header>
+            </div>
             <div className="countries">
                 <CountriesList
                     countries={filteredCountries ? filteredCountries : countries}
@@ -82,10 +86,6 @@ const CountriesContainer = () => {
                         addVisitedCountry={addVisitedCountry}
                     /> : <div></div>}
             </div>
-            <VisitedCountriesList
-                visitedCountries={visitedCountries}
-                selectCountry={selectCountry}
-            />
         </>
     );
 }
