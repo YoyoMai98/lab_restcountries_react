@@ -15,6 +15,7 @@ header {
 
 li {
   list-style: none;
+  margin-top: 10px;
 }
 
 li span {
@@ -30,4 +31,14 @@ li img {
 li p {
   margin: 8px 10px;
   font-size: 16px;
+}
+
+.countries {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.country-detail {
+  margin-top: 26px;
 }

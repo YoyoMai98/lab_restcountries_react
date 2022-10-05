@@ -1,12 +1,16 @@
 import CountryListItem from "./CountryListItem";
 
-const CountriesList = ({countries}) => {
+const CountriesList = ({countries, selectCountry}) => {
     return(
         <>
-            <h2>CountriesList here!</h2>
             <ul className="countries-list">
             {countries ? 
-                countries.map((country, index) => <CountryListItem country={country} key={country+index} />) :
+                countries.map((country, index) =>
+                <CountryListItem
+                    country={country}
+                    key={country+index}
+                    selectCountry={selectCountry}
+                />) :
                 <p>Loading...</p>
             }
             </ul>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import CountriesList from "../components/CountriesList";
-import Search from "../components/Search";
+import CountryDetail from "../components/CountryDetail";
 import VisitedCountriesList from "../components/VisitedCountriesList";
 
 const CountriesContainer = () => {
@@ -11,6 +11,7 @@ const CountriesContainer = () => {
     const [filteredCountries, setFilteredCountries] = useState()
     const [term, setTerm] = useState("")
     // const [searched, setSearched] = useState(false)
+    const [selected, setSelected] = useState(null)
 
     const fetchCountries = () => {
         fetch("https://restcountries.com/v3.1/all")
@@ -18,16 +19,19 @@ const CountriesContainer = () => {
         .then(jsonData => setCountries(jsonData))
     }
 
-    const markedVisitedCountries = () => {
-        // const countryIndex = countries.filter(country => {
-        //     return country.name.common.toLowerCase().includes(countryName.toLowerCase())[0]
-        // })
-        
-        // countries[countryIndex].visited = true
-        for(let i = 0; i < 10; i++){
-            countries[i].visited = true
+    const addVisitedCountry = (country) => {
+        if(visitedCountries.includes(country)){
+            alert("You have added this country!")
+            console.log(country)
+        }else{
+            country.visited = true
+            setVisitedCountries([...visitedCountries, country])
+            setCountries(countries)
         }
-        return countries
+    }
+
+    const selectCountry = country => {
+        setSelected(country)
     }
 
     const searchForACountry = (countryName) => {
@@ -51,10 +55,6 @@ const CountriesContainer = () => {
             country.visited = false
         }
         setCountries(countries)
-        if(countries.length > 0){
-            setCountries(markedVisitedCountries())
-            setVisitedCountries(countries.filter(country => country.visited))
-        }
         if(term){
             // handleOnClick()
             searchForACountry(term)
@@ -66,14 +66,27 @@ const CountriesContainer = () => {
     return(
         <>
             <header>
-                <h2>Country</h2>
+                <h2>Countries and Visited Countries</h2>
                 <form className="search">
                     <input type="search" placeholder="country name..." id="search-input" onChange={handleOnChange}/>
                     {/* <button onClick={handleOnClick} id="search-btn">Search</button> */}
                 </form>
             </header>
-            <CountriesList countries={filteredCountries ? filteredCountries : countries} />
-            <VisitedCountriesList visitedCountries={visitedCountries}/>
+            <div className="countries">
+                <CountriesList
+                    countries={filteredCountries ? filteredCountries : countries}
+                    selectCountry={selectCountry}
+                />
+                {selected?
+                    <CountryDetail
+                        country={selected}
+                        addVisitedCountry={addVisitedCountry}
+                    /> : <div></div>}
+            </div>
+            <VisitedCountriesList
+                visitedCountries={visitedCountries}
+                selectCountry={selectCountry}
+            />
         </>
     );
 }
